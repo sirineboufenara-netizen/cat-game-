@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ملجأ قطط سيرين</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3b2a4a;--glass:rgba(255,255,255,.78);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;font-family:'Baloo Bhaijaan 2',Tahoma,sans-serif;color:var(--ink);background:#f6c9d8}
+.wrap{max-width:560px;margin:0 auto;padding:8px}
+.hud{background:var(--glass);border:2px solid #fff;border-radius:18px;padding:8px;box-shadow:0 5px 0 rgba(0,0,0,.12)}
+.hud h1{margin:0 0 5px;font-size:18px;text-align:center}
+.stats{display:flex;gap:6px}.pill{flex:1;background:#fff;border-radius:12px;padding:3px 6px;text-align:center;font-weight:800;font-size:14px}
+.bar{height:5px;background:#d9e3d0;border-radius:3px;overflow:hidden}.bar i{display:block;height:100%;background:#43c15a;width:0}
+.btns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:7px}
+.btn{border:0;border-radius:14px;padding:8px 2px;font:800 14px 'Baloo Bhaijaan 2',Tahoma;color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.22);cursor:pointer}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.22)}.btn:focus-visible{outline:3px solid #fff}
+.b1{background:#3f8cf0}.b2{background:#ee5f8f}.b3{background:#f4a81d;color:#4a3000}.b4{background:#3fbf5a}
+.room{direction:ltr;position:relative;aspect-ratio:4/5;margin-top:8px;border-radius:20px;border:3px solid #fff;overflow:hidden;user-select:none;-webkit-user-select:none}
+.room>svg.bg{position:absolute;inset:0;width:100%;height:100%}
+.ent{position:absolute;transform:translate(-50%,-100%);transition:left 3s ease-in-out,top 3s ease-in-out;width:17%;cursor:pointer}
+.ent svg{width:100%;display:block;overflow:visible}
+.cy{width:20%;transition:left 1.6s linear,top 1.6s linear;pointer-events:none}
+.glow{filter:drop-shadow(0 0 7px #ffe27a)}
+.sel .in{outline:3px dashed #ee5f8f;border-radius:50%}
+.mv .in{animation:hop .4s infinite}.eat .in{animation:mun .25s infinite}.feed .in{animation:mun .3s 5}
+@keyframes hop{50%{transform:translateY(-12%)}}@keyframes mun{50%{transform:scale(1.07,.94)}}
+.tail{transform-origin:72px 82px;animation:wag 1.3s ease-in-out infinite alternate}@keyframes wag{to{transform:rotate(18deg)}}
+.eyes{transform-box:fill-box;transform-origin:center;animation:bl 4s infinite}@keyframes bl{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.arm{transform-origin:62px 68px}.feed .arm{animation:pour .5s 3}@keyframes pour{50%{transform:rotate(-45deg)}}
+.hb{display:none;position:absolute;top:-14%;left:62%;background:#fff;border-radius:12px;padding:0 4px;font-size:14px;box-shadow:0 2px 0 rgba(0,0,0,.15);animation:hop 1s infinite}
+.coin{position:absolute;width:7%;aspect-ratio:1;border-radius:50%;background:radial-gradient(#ffe680,#f2b01e);border:2px solid #b57a00;transform:translate(-50%,-50%);cursor:pointer;display:grid;place-items:center;font:800 11px 'Baloo Bhaijaan 2';color:#7a4d00;animation:cp .6s ease-out,sh 1.6s 1s infinite}
+@keyframes cp{from{transform:translate(-50%,-150%) scale(.3)}}@keyframes sh{50%{filter:brightness(1.3)}}
+.fx{position:absolute;transform:translate(-50%,-50%);font:800 18px 'Baloo Bhaijaan 2';color:#b57a00;text-shadow:0 1px #fff;pointer-events:none;z-index:2000;animation:up 1.1s forwards}
+@keyframes up{to{transform:translate(-50%,-190%);opacity:0}}
+.lab{position:absolute;font:800 11px 'Baloo Bhaijaan 2';border-radius:8px;padding:1px 8px;color:#fff;pointer-events:none;z-index:1}
+.pig{position:absolute;right:3%;top:52%;font-size:34px;z-index:900;display:none;animation:hop 1.2s infinite}
+.msg{margin-top:6px;text-align:center;font-weight:800;min-height:24px}
+.panel{display:none;margin-top:8px;background:var(--glass);border:2px solid #fff;border-radius:16px;padding:8px}.panel.on{display:block}
+.row{display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:12px;padding:5px 8px;margin-top:5px;gap:8px;font-size:14px}
+.row svg{width:44px;flex:none}.row .t{flex:1;line-height:1.2}.row small{color:#7a6a8a}
+.row button{border:0;border-radius:10px;padding:6px 10px;font:800 13px 'Baloo Bhaijaan 2';color:#fff;background:#3fbf5a;cursor:pointer;white-space:nowrap}.row button:disabled{background:#bbb}
+@media (prefers-reduced-motion:reduce){.tail,.eyes,.hb,.pig,.coin{animation:none}}
+</style></head><body><div class="wrap">
+<div class="hud"><h1>🐾 ملجأ قطط سيرين</h1>
+<div class="stats"><div class="pill">🪙 <span id="gold"></span></div><div class="pill">🐱 <span id="cnt"></span></div><div class="pill">مستوى <span id="lvl"></span><div class="bar"><i id="xp"></i></div></div></div>
+<div class="btns"><button class="btn b1" data-p="shop">🛒 متجر</button><button class="btn b2" data-p="breed">🐾 تربية</button><button class="btn b3" data-p="sell">💰 بيع</button><button class="btn b4" data-p="up">🔨 ترقيات</button></div></div>
+<div class="room" id="room">
+<svg class="bg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+<rect width="400" height="500" fill="#86aedd"/>
+<polygon points="0,0 400,0 400,70 0,150" fill="#e996ae"/>
+<path d="M0 150L400 70M130 0L112 118M280 0L292 88" stroke="#b9743f" stroke-width="11"/>
+<polygon points="26,8 150,8 138,92 18,122" fill="#d6efff" stroke="#b9743f" stroke-width="5"/>
+<rect x="14" y="150" width="120" height="150" rx="8" fill="#bfe6ff" stroke="#b9743f" stroke-width="8"/>
+<rect x="18" y="222" width="112" height="74" fill="#8fd67e"/><circle cx="100" cy="185" r="14" fill="#ffe680"/>
+<path d="M18 250h112M30 232v40M54 232v40M78 232v40M102 232v40" stroke="#fff" stroke-width="5"/>
+<circle cx="45" cy="290" r="12" fill="#f58ab0"/><circle cx="85" cy="288" r="10" fill="#ffd45a"/>
+<rect x="232" y="142" width="152" height="10" rx="4" fill="#e87aa0"/>
+<rect x="240" y="152" width="62" height="52" rx="6" fill="#f3b4c6"/><rect x="316" y="152" width="62" height="52" rx="6" fill="#f3b4c6"/>
+<circle cx="271" cy="180" r="12" fill="#8a4a5a"/><circle cx="347" cy="180" r="12" fill="#8a4a5a"/>
+<rect x="226" y="204" width="166" height="10" rx="4" fill="#b9743f"/>
+<rect y="262" width="400" height="238" fill="#d99a5e"/>
+<path d="M0 300h400M0 345h400M0 400h400M0 465h400" stroke="#c4854d" stroke-width="3"/>
+<ellipse cx="200" cy="430" rx="150" ry="42" fill="#7fa8d8" opacity=".45"/>
+<rect x="215" y="246" width="185" height="14" rx="5" fill="#c98a52"/><rect x="215" y="260" width="185" height="48" fill="#a8693a"/>
+<rect x="22" y="320" width="12" height="150" fill="#d9b48a"/><rect x="2" y="330" width="62" height="10" rx="4" fill="#7aa0d0"/><rect x="2" y="400" width="62" height="10" rx="4" fill="#e87aa0"/>
+<ellipse cx="110" cy="408" rx="72" ry="24" fill="#b9743f"/><ellipse cx="110" cy="400" rx="64" ry="20" fill="#f0d8b0" stroke="#ee5f8f" stroke-width="5"/>
+<text x="110" y="446" font-size="12" font-weight="800" text-anchor="middle" fill="#6b3f22">BREEDING STATION</text>
+<rect x="338" y="388" width="44" height="74" rx="9" fill="#d8dfe6" stroke="#9aa6b2" stroke-width="3"/><rect x="344" y="410" width="32" height="32" fill="#8a5a2a" opacity=".8"/><ellipse cx="360" cy="468" rx="24" ry="7" fill="#9aa6b2"/>
+</svg>
+<span class="lab" style="left:3%;top:33%;background:#5cb85c" id="gl">الحديقة: مغلقة</span>
+<span class="lab" style="right:5%;top:27%;background:#4a86d8">CAT CONDO</span><div class="pig" id="pig">🐷</div>
+</div>
+<div class="msg" id="msg">اضغطي على قطة جائعة لتطعمها سيرين، واجمعي العملات!</div>
+<div class="panel" id="shop"></div><div class="panel" id="breed"></div><div class="panel" id="sell"></div><div class="panel" id="up"></div>
+</div>
+<script>
+const $=i=>document.getElementById(i),R=$('room'),rnd=(a,b)=>a+Math.random()*(b-a);
+const B=[
+{n:'برتقالية مخططة',p:50,i:2,c:'#f59a3c',c2:'#c9701d',t:'tabby',e:'#4a9b3f'},
+{n:'سوداء لامعة',p:120,i:4,c:'#2c2c36',c2:'#454555',t:'',e:'#ffc83a'},
+{n:'رمادية روسية',p:200,i:6,c:'#9aa3b5',c2:'#7d869a',t:'',e:'#4ab87a'},
+{n:'توكسيدو',p:300,i:9,c:'#2f2f3a',c2:'#fff',t:'tux',e:'#e8c13a'},
+{n:'كاليكو',p:500,i:14,c:'#fff',c2:'#f59a3c',c3:'#2c2c36',t:'patch',e:'#7a5a2a'},
+{n:'سيامية',p:800,i:22,c:'#f3e2c4',c2:'#6a4632',t:'pt',e:'#4a86e8'},
+{n:'فارسية',p:1200,i:35,c:'#fff',c2:'#efe6ff',t:'',f:1,e:'#3a8fd0'},
+{n:'راغدول',p:2000,i:55,c:'#f6efe6',c2:'#8a7a70',t:'pt',f:1,e:'#4a86e8'},
+{n:'بنغالية',p:3200,i:85,c:'#e0a84a',c2:'#5a3a1a',t:'spot',e:'#6aa83a'},
+{n:'ماين كون',p:5000,i:130,c:'#8a6a4a',c2:'#4a3220',t:'tabby',f:1,e:'#e0b030'},
+{n:'القطة الملكية ✨',p:12000,i:320,c:'#ffd45a',c2:'#fff3b0',t:'tabby',f:1,e:'#c03a8a',gl:1}];
+function cs(b){const pt=b.t=='pt',f=b.f?4:0,c=b.c,s=b.c2,o=pt?s:c;let x='';
+if(b.t=='tabby')x=`<path d="M50 20v9M40 22l3 8M60 22l-3 8M25 66h10M65 66h10M27 76h9M64 76h9" stroke="${s}" stroke-width="3.5" stroke-linecap="round" fill="none"/>`;
+if(pt)x=`<ellipse cx="50" cy="52" rx="14" ry="12" fill="${s}" opacity=".85"/>`;
+if(b.t=='patch')x=`<circle cx="34" cy="32" r="8" fill="${s}"/><circle cx="66" cy="70" r="10" fill="${b.c3}"/><circle cx="68" cy="30" r="7" fill="${b.c3}"/>`;
+if(b.t=='tux')x=`<ellipse cx="50" cy="78" rx="11" ry="14" fill="${s}"/><ellipse cx="50" cy="55" rx="11" ry="8" fill="${s}"/>`;
+if(b.t=='spot')x=`<g fill="${s}"><circle cx="34" cy="68" r="4"/><circle cx="62" cy="64" r="5"/><circle cx="50" cy="82" r="4"/><circle cx="40" cy="30" r="3"/><circle cx="62" cy="32" r="3"/><circle cx="72" cy="78" r="4"/></g>`;
+return `<svg viewBox="0 0 100 100"><path class="tail" d="M72 82q24-4 18-30" stroke="${o}" stroke-width="11" stroke-linecap="round" fill="none"/>
+<ellipse cx="50" cy="74" rx="${26+f}" ry="${21+f/2}" fill="${c}"/><ellipse cx="37" cy="93" rx="9" ry="6" fill="${o}"/><ellipse cx="63" cy="93" rx="9" ry="6" fill="${o}"/>
+<polygon points="25,32 28,6 47,20" fill="${o}"/><polygon points="75,32 72,6 53,20" fill="${o}"/><polygon points="30,26 31,13 41,21" fill="#f8b4c4"/><polygon points="70,26 69,13 59,21" fill="#f8b4c4"/>
+<circle cx="50" cy="46" r="${27+f}" fill="${c}"/>${x}
+<g class="eyes"><circle cx="39" cy="46" r="7" fill="${b.e}"/><circle cx="61" cy="46" r="7" fill="${b.e}"/><ellipse cx="39" cy="46" rx="3" ry="5" fill="#1a1a22"/><ellipse cx="61" cy="46" rx="3" ry="5" fill="#1a1a22"/><circle cx="37" cy="43" r="2" fill="#fff"/><circle cx="59" cy="43" r="2" fill="#fff"/></g>
+<path d="M47 55h6l-3 3z" fill="#f08aa0"/><path d="M50 58q-4 5-8 2M50 58q4 5 8 2" stroke="#7a4a4a" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<circle cx="30" cy="56" r="4" fill="#ff8aa8" opacity=".35"/><circle cx="70" cy="56" r="4" fill="#ff8aa8" opacity=".35"/>
+<path d="M28 57l-14-2M28 60l-14 3M72 57l14-2M72 60l14 3" stroke="#8a7a8a" opacity=".5" stroke-width="1.2"/></svg>`}
+const GIRL=`<svg viewBox="0 0 90 140"><path d="M18 40q-6 50 4 62h36q10-12 4-62q-4-26-22-26t-22 26z" fill="#6b3f22"/>
+<rect x="26" y="96" width="12" height="30" fill="#4a6fa5"/><rect x="42" y="96" width="12" height="30" fill="#4a6fa5"/><ellipse cx="32" cy="130" rx="10" ry="6" fill="#ec5d86"/><ellipse cx="48" cy="130" rx="10" ry="6" fill="#ec5d86"/>
+<rect x="22" y="62" width="36" height="40" rx="8" fill="#fff"/><rect x="13" y="66" width="10" height="28" rx="5" fill="#f6c9a0"/>
+<path d="M26 70h28l4 34H22z" fill="#f27a9e"/><text x="40" y="88" font-size="7" font-weight="800" fill="#fff" text-anchor="middle">CAT</text><text x="40" y="96" font-size="7" font-weight="800" fill="#fff" text-anchor="middle">LOVER</text>
+<g class="arm"><rect x="57" y="62" width="9" height="26" rx="4.5" fill="#f6c9a0" transform="rotate(-35 62 66)"/><path d="M62 44h22q-2 11-11 11t-11-11z" fill="#ffd0a0" stroke="#d99a5e" stroke-width="2"/><g fill="#8a5a2a"><circle cx="68" cy="43" r="2.5"/><circle cx="74" cy="42" r="2.5"/><circle cx="79" cy="43" r="2.5"/></g></g>
+<circle cx="40" cy="40" r="19" fill="#f6c9a0"/><path d="M21 38q2-24 19-24t19 24q-10-13-19-13t-19 13z" fill="#6b3f22"/>
+<circle cx="33" cy="42" r="2.8" fill="#3a2418"/><circle cx="47" cy="42" r="2.8" fill="#3a2418"/><circle cx="32" cy="41" r="1" fill="#fff"/><circle cx="46" cy="41" r="1" fill="#fff"/>
+<circle cx="28" cy="48" r="3" fill="#ff9aa8" opacity=".5"/><circle cx="52" cy="48" r="3" fill="#ff9aa8" opacity=".5"/><path d="M34 49q6 6 12 0" stroke="#a04a4a" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>`;
+const S={g:150,l:1,xp:0,cap:5,cats:[],coins:[],sel:[],col:0,af:0,gd:0,cd:0,id:1},cy={x:50,y:78,busy:0,q:[]};
+const CY=document.createElement('div');CY.className='ent cy';CY.innerHTML='<div class="in">'+GIRL+'</div>';R.appendChild(CY);
+function pcy(){CY.style.left=cy.x+'%';CY.style.top=cy.y+'%';CY.style.zIndex=Math.round(cy.y*10)}pcy();
+function place(c){c.el.style.left=c.x+'%';c.el.style.top=c.y+'%';c.el.style.zIndex=Math.round(c.y*10)}
+function mk(k){const c={id:S.id++,k,h:70,p:0,x:rnd(15,85),y:rnd(66,90),hold:0},e=document.createElement('div');
+e.className='ent cat'+(B[k].gl?' glow':'');e.dataset.id=c.id;e.innerHTML='<div class="hb">🍗</div><div class="in">'+cs(B[k])+'</div>';R.appendChild(e);c.el=e;place(c);S.cats.push(c);return c}
+function fx(x,y,t){const d=document.createElement('div');d.className='fx';d.textContent=t;d.style.left=x+'%';d.style.top=y+'%';R.appendChild(d);setTimeout(()=>d.remove(),1100)}
+const msg=t=>$('msg').textContent=t;
+function gain(v){S.g+=v;S.xp+=v;while(S.xp>=100*S.l){S.xp-=100*S.l;S.l++;S.cap++;msg('🎉 مستوى '+S.l+'! مكان إضافي للقطط')}hud()}
+function hud(){$('gold').textContent=Math.floor(S.g);$('cnt').textContent=S.cats.length+'/'+S.cap;$('lvl').textContent=S.l;$('xp').style.width=S.xp/(S.l)+'%';$('gl').textContent=S.gd?'الحديقة: مفتوحة':'الحديقة: مغلقة';$('pig').style.display=S.col?'block':'none';const p=document.querySelector('.panel.on');if(p)pan(p.id)}
+function drop(c){if(S.coins.length>40)return;const v=B[c.k].i,e=document.createElement('div');e.className='coin';e.textContent=v;e.style.left=(c.x+rnd(-4,4))+'%';e.style.top=(c.y-9)+'%';e.style.zIndex=1500;const o={e,v,t:0};e.onclick=()=>col(o);R.appendChild(e);S.coins.push(o)}
+function col(o){const i=S.coins.indexOf(o);if(i<0)return;S.coins.splice(i,1);fx(parseFloat(o.e.style.left),parseFloat(o.e.style.top),'+'+o.v);o.e.remove();gain(o.v)}
+function wander(c){c.x=rnd(12,88);c.y=rnd(66,91);c.el.classList.add('mv');place(c);setTimeout(()=>c.el.classList.remove('mv'),3000)}
+function feed(c){if(c.hold||cy.q.includes(c))return;cy.q.push(c);go()}
+function go(){if(cy.busy||!cy.q.length)return;const c=cy.q.shift();cy.busy=1;c.hold=1;
+const r=c.el.getBoundingClientRect(),q=R.getBoundingClientRect();c.x=(r.left+r.width/2-q.left)/q.width*100;c.y=(r.bottom-q.top)/q.height*100;place(c);c.el.classList.remove('mv');
+cy.x=c.x<=50?c.x+13:c.x-13;cy.y=c.y+.6;CY.classList.add('mv');pcy();
+setTimeout(()=>{CY.classList.remove('mv');CY.classList.add('feed');c.el.classList.add('eat');fx(c.x,c.y-16,'🍗');
+setTimeout(()=>{c.h=100;CY.classList.remove('feed');c.el.classList.remove('eat');fx(c.x,c.y-18,'❤️');fx(c.x+6,c.y-24,'+5');gain(5);c.hold=0;cy.busy=0;go()},1800)},1750)}
+setInterval(()=>{S.cats.forEach(c=>{c.h=Math.max(0,c.h-1.5);if(c.h>0&&++c.p>=3){c.p=0;drop(c)}if(!c.hold&&Math.random()<.3)wander(c);c.el.firstChild.style.display=c.h<35?'block':'none'});
+S.coins.slice().forEach(o=>{if(S.col&&++o.t>=1)col(o)});
+if(S.af&&!cy.busy){const h=S.cats.find(c=>c.h<35&&!c.hold);if(h)feed(h)}},1000);
+R.addEventListener('click',e=>{const t=e.target.closest('.cat');if(!t)return;const c=S.cats.find(x=>x.id==t.dataset.id);
+if($('breed').classList.contains('on')){const i=S.sel.indexOf(c.id);i>-1?S.sel.splice(i,1):S.sel.length<2&&S.sel.push(c.id);S.cats.forEach(x=>x.el.classList.toggle('sel',S.sel.includes(x.id)));hud()}else feed(c)});
+function pan(id){const el=$(id);let h='';
+if(id=='shop')h='<b>المتجر — كل قطة تعطي عملات مختلفة</b>'+B.map((b,k)=>`<div class="row">${cs(b)}<span class="t">${b.n}<br><small>+${b.i} 🪙 كل 3 ثوانٍ</small></span><button data-buy="${k}" ${S.g<b.p||S.cats.length>=S.cap?'disabled':''}>🪙 ${b.p}</button></div>`).join('');
+if(id=='breed')h=`<b>محطة التربية</b><div class="row"><span class="t">اختاري قطتين من الغرفة (مطعومتين) <small>(${S.sel.length}/2)</small></span><button data-breed ${S.sel.length==2?'':'disabled'}>❤️ تزاوج</button></div>`;
+if(id=='sell')h='<b>بيع القطط</b>'+(S.cats.map(c=>`<div class="row">${cs(B[c.k])}<span class="t">${B[c.k].n}</span><button data-sell="${c.id}">بيع 🪙 ${Math.floor(B[c.k].p*.6)}</button></div>`).join('')||'<div class="row">لا توجد قطط</div>');
+if(id=='up'){const U=[['col','🐷 جامع الذهب التلقائي',400,'يجمع كل العملات بدون ضغط'],['af','👧 سيرين تطعم تلقائياً',600,'تطعم القطط الجائعة وحدها'],['gd','🌿 توسعة الحديقة',1000,'+4 أماكن'],['cd','🏠 ترقية الكوندو',2500,'+6 أماكن']];
+h='<b>الترقيات</b>'+U.map(u=>`<div class="row"><span class="t">${u[1]}<br><small>${u[3]}</small></span><button data-up="${u[0]}" data-c="${u[2]}" ${S[u[0]]||S.g<u[2]?'disabled':''}>${S[u[0]]?'تم ✓':'🪙 '+u[2]}</button></div>`).join('')}
+el.innerHTML=h}
+document.querySelector('.hud').addEventListener('click',e=>{const p=e.target.closest('[data-p]');if(!p)return;const id=p.dataset.p,el=$(id),on=!el.classList.contains('on');
+document.querySelectorAll('.panel').forEach(x=>x.classList.remove('on'));if(on){el.classList.add('on');pan(id)}S.sel=[];S.cats.forEach(x=>x.el.classList.remove('sel'))});
+document.querySelectorAll('.panel').forEach(p=>p.addEventListener('click',e=>{const d=e.target.dataset;
+if(d.buy){const b=B[d.buy];if(S.g>=b.p&&S.cats.length<S.cap){S.g-=b.p;mk(+d.buy);msg('انضمت '+b.n+' للملجأ! 🎉')}}
+if(d.sell){const i=S.cats.findIndex(c=>c.id==d.sell),c=S.cats[i];S.g+=Math.floor(B[c.k].p*.6);c.el.remove();S.cats.splice(i,1);cy.q=cy.q.filter(x=>x!=c);msg('تم البيع 💰')}
+if('breed' in d){const[a,b]=S.sel.map(id=>S.cats.find(c=>c.id==id));if(S.cats.length>=S.cap)msg('لا توجد مساحة!');else if(a.h<30||b.h<30)msg('أطعمي القطتين أولاً');
+else{let k=Math.random()<.5?a.k:b.k,r=Math.random()<.1;if(r)k=Math.min(B.length-1,Math.max(a.k,b.k)+1);const n=mk(k);n.x=27;n.y=84;place(n);fx(27,72,'❤️');S.sel=[];S.cats.forEach(x=>x.el.classList.remove('sel'));gain(10);msg(r?'✨ سلالة نادرة: '+B[k].n:'❤️ وُلدت قطة صغيرة!')}}
+if(d.up&&S.g>=+d.c&&!S[d.up]){S.g-=+d.c;S[d.up]=1;if(d.up=='gd')S.cap+=4;if(d.up=='cd')S.cap+=6;msg('تمت الترقية!')}
+hud()}));
+mk(0);hud();
+</script></body></html>
